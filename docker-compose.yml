@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile_base
+    user: root
     command: shell
     environment:
       - DEBUG=${DEBUG:-True}

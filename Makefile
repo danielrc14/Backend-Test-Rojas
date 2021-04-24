@@ -37,8 +37,8 @@ fromscratch: reset pull up
 
 .PHONY: bash
 bash: ## drops you into a running container
-	@docker exec -it -e RUNTYPE=bash $$(docker ps|grep cornershop-backend-test_backend|awk '{ print $$1 }') /docker-entrypoint.sh || true
+	@docker exec -it -e RUNTYPE=bash $$(docker ps|grep cornershop-backend-test_jupyterlab_1|awk '{ print $$1 }') /docker-entrypoint.sh || true
 
 .PHONY: rootbash
 rootbash: ## drops you into a running container as root
-	@docker exec -it -e RUNTYPE=bash --user=root $$(docker ps|grep cornershop-backend-test_backend|awk '{ print $$1 }') /docker-entrypoint.sh || true
+	@docker exec -it -e RUNTYPE=bash --user=root $$(docker ps|grep cornershop-backend-test_jupyterlab_1|awk '{ print $$1 }') /docker-entrypoint.sh || true
