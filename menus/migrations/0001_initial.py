@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField()),
-                ('menu', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='menu', to='menus.Menu')),
+                ('menu', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='options', to='menus.Menu')),
             ],
         ),
         migrations.CreateModel(
@@ -34,8 +34,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('preferences', models.TextField(blank=True, null=True)),
-                ('option', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='menu_option', to='menus.MenuOption')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL)),
+                ('option', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='selections', to='menus.MenuOption')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='selections', to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

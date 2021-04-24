@@ -11,7 +11,7 @@ class Menu(models.Model):
 class MenuOption(models.Model):
     menu = models.ForeignKey(
         Menu,
-        related_name='menu',
+        related_name='options',
         on_delete=models.CASCADE,
     )
     text = models.TextField()
@@ -20,12 +20,12 @@ class MenuOption(models.Model):
 class MenuOptionSelection(models.Model):
     option = models.ForeignKey(
         MenuOption,
-        related_name='menu_option',
+        related_name='selections',
         on_delete=models.CASCADE,
     )
     user = models.ForeignKey(
         User,
-        related_name='user',
+        related_name='selections',
         on_delete=models.CASCADE,
     )
     preferences = models.TextField(
