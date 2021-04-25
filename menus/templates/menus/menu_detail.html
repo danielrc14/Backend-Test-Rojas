@@ -6,8 +6,9 @@
   <p>Options:</p>
   <ul>
     {% for option in menu.options.all %}
-      <li>{{option.text}}</li>
+      <li>{{option.text}} <a href="{% url 'menus:menuoption_update' pk=option.id %}">Edit</a></li>
     {% endfor %}
   </ul>
-  <p>Create new option:</p>
+  <a href="{% url 'menus:menuoption_create' menu_pk=object.id %}">Create new option</a>
+
 {% endblock content %}

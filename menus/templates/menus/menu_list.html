@@ -4,18 +4,24 @@
   <h3>Menus list</h3>
   <table>
     <tr>
-      <th>Date<th>
-      <th>Options<th>
+      <th>Date</th>
+      <th>Options</th>
+      <th>Actions</th>
     </tr>
     {% for menu in object_list %}
       <tr>
-        <td>{{menu.date}}<td>
+        <td>{{menu.date}}</td>
         <td>
           <ul>
             {% for option in menu.options.all %}
               <li>{{option.text}}</li>
             {% endfor %}
           </ul>
+        </td>
+        <td>
+          <a href="{% url 'menus:menu_detail' pk=menu.id %}">View</a>
+          <a href="{% url 'menus:menu_update' pk=menu.id %}">Edit</a>
+        </td>
       </tr>
     {% endfor %}
   </table>
