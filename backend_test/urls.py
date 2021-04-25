@@ -17,10 +17,18 @@ from django.urls import (
     path,
     include,
 )
+from django.shortcuts import redirect
 
 from .utils.healthz import healthz
 
+
+def home_view(request):
+    return redirect('menus:menu_list')
+
+
 urlpatterns = [
+    path("", home_view, name="home"),
     path("healthz", healthz, name="healthz"),
-    path("menus/", include('menus.urls', namespace='menus')),
+    path("menus/", include("menus.urls", namespace="menus")),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
