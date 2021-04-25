@@ -6,6 +6,7 @@
 
 .navbar li {
   display: inline;
+  margin: 0 5px;
 }
 
 .float-right {
