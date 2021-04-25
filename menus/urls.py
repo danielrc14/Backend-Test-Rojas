@@ -22,4 +22,9 @@ urlpatterns = [
         views.MenuOptionUpdateView.as_view(),
         name='menuoption_update',
     ),
+    path(
+        'selections_list',
+        views.MenuOptionSelectionListView.as_view(),
+        name='selections_list',
+    ),
 ]

@@ -13,6 +13,7 @@ from .models import (
     Menu,
     MenuOption,
 )
+from users.models import MenuOptionSelection
 
 # Others
 from datetime import datetime
@@ -93,3 +94,21 @@ class MenuOptionUpdateView(BasePermissionMixin, UpdateView):
     """
     model = MenuOption
     fields = ['text']
+
+
+class MenuOptionSelectionListView(BasePermissionMixin, ListView):
+    """
+    View to list the selection of all users for today's menu
+    """
+    model = MenuOptionSelection
+    ordering = ['user__first_name']
+    template_name = 'menus/menuoptionselection_list.html'
+
+    def get_queryset(self):
+        menu = get_object_or_404(Menu, date=datetime.now().date())
+        queryset = super().get_queryset()
+        queryset = queryset.filter(option__menu=menu).select_related(
+            'option', 'user',
+        )
+
+        return queryset
