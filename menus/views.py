@@ -14,6 +14,9 @@ from .models import (
     MenuOption,
 )
 
+# Others
+from datetime import datetime
+
 
 class BasePermissionMixin(UserPassesTestMixin):
     """
@@ -55,6 +58,12 @@ class MenuCreateView(BasePermissionMixin, CreateView):
     """
     model = Menu
     fields = ['date']
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['date'] = datetime.now().date()
+
+        return initial
 
 
 class MenuUpdateView(BasePermissionMixin, UpdateView):
