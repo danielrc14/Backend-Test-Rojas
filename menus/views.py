@@ -5,6 +5,7 @@ from django.views.generic.edit import (
     CreateView,
     UpdateView,
 )
+from django.shortcuts import get_object_or_404
 
 # Models
 from .models import (
@@ -47,3 +48,24 @@ class MenuUpdateView(UpdateView):
     """
     model = Menu
     fields = ['date']
+
+
+class MenuOptionCreateView(CreateView):
+    """
+    View for creating an option for a menu
+    """
+    model = MenuOption
+    fields = ['text']
+
+    def form_valid(self, form):
+        menu = get_object_or_404(Menu, pk=self.kwargs['menu_pk'])
+        form.instance.menu = menu
+        return super().form_valid(form)
+
+
+class MenuOptionUpdateView(UpdateView):
+    """
+    View for creating an option for a menu
+    """
+    model = MenuOption
+    fields = ['text']

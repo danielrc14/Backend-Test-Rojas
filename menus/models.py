@@ -20,6 +20,9 @@ class MenuOption(models.Model):
     )
     text = models.TextField()
 
+    def get_absolute_url(self):
+        return reverse('menus:menu_detail', args=[str(self.menu.id)])
+
 
 class MenuOptionSelection(models.Model):
     option = models.ForeignKey(
