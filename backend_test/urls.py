@@ -30,5 +30,6 @@ urlpatterns = [
     path("", home_view, name="home"),
     path("healthz", healthz, name="healthz"),
     path("menus/", include("menus.urls", namespace="menus")),
+    path("users/", include("users.urls", namespace="users")),
     path("accounts/", include("django.contrib.auth.urls")),
 ]
