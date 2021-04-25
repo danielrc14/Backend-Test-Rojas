@@ -9,7 +9,7 @@
   </head>
   <div>
     <ul class="navbar">
-      <li><a href="">Home</a></li>
+      <li><a href="{% url 'home' %}">Home</a></li>
       <li class="float-right">
         {% if request.user.is_authenticated %}
           Logged in as {{request.user}} <a href="{% url 'logout' %}">Log out</a>
