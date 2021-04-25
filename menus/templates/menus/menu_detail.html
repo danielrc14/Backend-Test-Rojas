@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Menu detail</h3>
+  <p>Date: {{object.date}}</p>
+  <p>Options:</p>
+  <ul>
+    {% for option in menu.options.all %}
+      <li>{{option.text}}</li>
+    {% endfor %}
+  </ul>
+  <p>Create new option:</p>
+{% endblock content %}

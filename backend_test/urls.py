@@ -22,5 +22,5 @@ from .utils.healthz import healthz
 
 urlpatterns = [
     path("healthz", healthz, name="healthz"),
-    path("menus/", include('menus.urls')),
+    path("menus/", include('menus.urls', namespace='menus')),
 ]
