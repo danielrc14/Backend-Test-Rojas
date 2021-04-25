@@ -23,7 +23,13 @@ from .utils.healthz import healthz
 
 
 def home_view(request):
-    return redirect('menus:menu_list')
+    if request.user.is_authenticated:
+        if request.user.has_perm('menus.add_menu'):
+            return redirect('menus:menu_list')
+        else:
+            return redirect('users:menu_selection')
+    else:
+        return redirect('login')
 
 
 urlpatterns = [
