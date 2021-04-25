@@ -1,9 +1,24 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'menus/style.css' %}">
     <meta charset="utf-8">
     <title>Cornershop backend test</title>
   </head>
+  <div>
+    <ul class="navbar">
+      <li><a href="">Home</a></li>
+      <li class="float-right">
+        {% if request.user.is_authenticated %}
+          Logged in as {{request.user}} <a href="{% url 'logout' %}">Log out</a>
+        {% else %}
+          <a href="{% url 'login' %}">Log in</a>
+        {% endif %}
+      </li>
+    </ul>
+  </div>
   <body>
     {% block content %}
     {% endblock content %}
