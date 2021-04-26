@@ -2,6 +2,7 @@
 from django.views.generic.edit import FormView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 # Models
 from .models import MenuOptionSelection
@@ -11,16 +12,23 @@ from menus.models import Menu
 from .forms import MenuOptionSelectionForm
 
 # Others
-from datetime import datetime
+from datetime import (
+    datetime,
+    time,
+)
 
 
-class SelectMenuOptionView(FormView):
+class SelectMenuOptionView(UserPassesTestMixin, FormView):
     """
     View for a user to select his option for today's menu.
     """
     model = MenuOptionSelection
     form_class = MenuOptionSelectionForm
     template_name = 'menu_selection/menu_selection_today.html'
+
+    def test_func(self):
+        # Forbid users to select an option after 11:00
+        datetime.now().time() < time(hour=11)
 
     def get_form_kwargs(self):
         """
