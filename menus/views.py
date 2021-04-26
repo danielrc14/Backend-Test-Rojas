@@ -42,6 +42,7 @@ class MenuListView(BasePermissionMixin, ListView):
     ordering = ['date']
 
     def get_queryset(self):
+        # Use prefetch_related to reduce queries
         queryset = super().get_queryset()
         return queryset.prefetch_related('options')
 
@@ -83,6 +84,7 @@ class MenuOptionCreateView(BasePermissionMixin, CreateView):
     fields = ['text']
 
     def form_valid(self, form):
+        # Assign the menu of the pk in kwargs to the created option
         menu = get_object_or_404(Menu, pk=self.kwargs['menu_pk'])
         form.instance.menu = menu
         return super().form_valid(form)
@@ -105,6 +107,7 @@ class MenuOptionSelectionListView(BasePermissionMixin, ListView):
     template_name = 'menus/menuoptionselection_list.html'
 
     def get_queryset(self):
+        # The user can only select the options of today's menu
         menu = get_object_or_404(Menu, date=datetime.now().date())
         queryset = super().get_queryset()
         queryset = queryset.filter(option__menu=menu).select_related(

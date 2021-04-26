@@ -23,6 +23,10 @@ class SelectMenuOptionView(FormView):
     template_name = 'menu_selection/menu_selection_today.html'
 
     def get_form_kwargs(self):
+        """
+        Get today's menu and the user's selection (if it exists), and pass
+        them to the form
+        """
         kwargs = super().get_form_kwargs()
         menu = get_object_or_404(Menu, date=datetime.now().date())
         selection = MenuOptionSelection.objects.filter(
@@ -35,6 +39,7 @@ class SelectMenuOptionView(FormView):
         return kwargs
 
     def form_valid(self, form):
+        # Assign user to the instance and save it
         form.instance.user = self.request.user
         form.save()
 

@@ -6,6 +6,9 @@ from django.urls import reverse
 # TODO: docstrings???
 
 class Menu(models.Model):
+    """
+    A model that represents the menu for a specific date.
+    """
     date = models.DateField()
 
     def get_absolute_url(self):
@@ -13,6 +16,9 @@ class Menu(models.Model):
 
 
 class MenuOption(models.Model):
+    """
+    A model that represents a meal option for a menu.
+    """
     menu = models.ForeignKey(
         Menu,
         related_name='options',

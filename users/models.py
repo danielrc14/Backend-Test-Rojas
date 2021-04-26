@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 
 
 class MenuOptionSelection(models.Model):
+    """
+    A model that represents the selection of a user between the options of a
+    menu
+    """
     option = models.ForeignKey(
         'menus.MenuOption',
         related_name='selections',
