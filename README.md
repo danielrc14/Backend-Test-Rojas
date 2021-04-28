@@ -31,7 +31,7 @@ group.permissions.add(permission)
 user.groups.add(group)
 ```
 
-* This project also needs to add the Slack oauth token of the Slack app to the local environment, in the `SLACK_SDK_OAUTH_TOKEN` variable. To create a Slack app and get the token, see https://github.com/slackapi/python-slack-sdk/blob/main/tutorial/01-creating-the-slack-app.md
+* This project also needs to add the Slack oauth token of the Slack app to the local environment, in the `SLACK_SDK_OAUTH_TOKEN` variable. To create a Slack app and get the token, see https://github.com/slackapi/python-slack-sdk/blob/main/tutorial/01-creating-the-slack-app.md. For testing, the variables `SLACK_SDK_OAUTH_TOKEN_TEST` and `SLACK_TEST_CHANNEL` also have to be set, and the app has to be added to the desired channel.
 
 ### Project overview
 
@@ -50,5 +50,3 @@ This project has two Django apps, `menus` and `users`.
 * Nora can only see the selectios for today's menu, not for other dates.
 
 * There's no distinction between employees and other users, so the notification of today's menu is sent to every user with a `slack_username` configured.
-
-* The slack integration wasn't tested, mainly because testing both Slack and Celery adds additional complexity.

@@ -1,6 +1,10 @@
 # Django
-from django.test import TestCase
+from django.test import (
+    TestCase,
+    override_settings,
+)
 from django.urls import reverse
+from django.conf import settings
 
 # Models
 from users.models import (
@@ -13,11 +17,9 @@ from menus.models import (
 )
 
 # Others
-from datetime import (
-    datetime,
-    date,
-)
+from datetime import date
 from freezegun import freeze_time
+from users.slack_client import send_slack_message
 
 """
 - Test queryset of MenuOptionSelectionForm???
@@ -28,6 +30,9 @@ from freezegun import freeze_time
 
 class UsersTestCase(TestCase):
     def setUp(self):
+        """
+        Set up a user, a menu, and some options
+        """
         self.user = User.objects.create(
             email='test@test.cl', username='test',
         )
@@ -43,6 +48,9 @@ class UsersTestCase(TestCase):
 
     @freeze_time('2021-01-01 10:00:00')
     def test_within_time_limits(self):
+        """
+        Test creation and update of a selection, within the time limits
+        """
         url = reverse(
             'users:menu_selection',
             args=[str(self.user.uuid)],
@@ -71,6 +79,9 @@ class UsersTestCase(TestCase):
 
     @freeze_time('2021-01-01 12:00:00')
     def test_out_of_time_limits(self):
+        """
+        Test trying to access the view out of the time limits
+        """
         url = reverse(
             'users:menu_selection',
             args=[str(self.user.uuid)],
@@ -78,3 +89,17 @@ class UsersTestCase(TestCase):
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
+
+    @override_settings(
+        SLACK_SDK_OAUTH_TOKEN=settings.SLACK_SDK_OAUTH_TOKEN_TEST,
+    )
+    def test_slack_messages(self):
+        """
+        Test sending a slack message
+        """
+        response = send_slack_message(
+            'Test message',
+            settings.SLACK_TEST_CHANNEL,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data.get('ok'))

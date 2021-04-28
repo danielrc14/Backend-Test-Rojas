@@ -248,3 +248,7 @@ AUTH_USER_MODEL = 'users.User'
 # Slack integration
 SLACK_SDK_OAUTH_TOKEN = getenv('SLACK_SDK_OAUTH_TOKEN')
 SLACK_USERNAME = 'cornershop-bot'
+
+# Slack integration testing
+SLACK_SDK_OAUTH_TOKEN_TEST = getenv('SLACK_SDK_OAUTH_TOKEN_TEST')
+SLACK_TEST_CHANNEL = getenv('SLACK_TEST_CHANNEL', default='#general')

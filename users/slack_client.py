@@ -16,3 +16,5 @@ def send_slack_message(message, channel):
     if not response.status_code == 200 or response.data.get('ok') is not True:
         # Here there should be code to manage errors, like logs, etc.
         pass
+
+    return response
