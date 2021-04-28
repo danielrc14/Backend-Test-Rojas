@@ -1,5 +1,17 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    """
+    Custom User model to be used instead of the one provided by Django. It
+    extends the Django model to add additional fields like the slack username.
+    """
+    slack_username = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+    )
 
 
 class MenuOptionSelection(models.Model):
