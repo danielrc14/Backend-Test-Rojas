@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 import uuid
 
 
@@ -18,6 +19,11 @@ class User(AbstractUser):
         editable=False,
         unique=True,
     )
+
+    def get_menu_selection_link(self, request):
+        return request.build_absolute_uri(reverse(
+            'users:menu_selection', args=[str(self.uuid)])
+        )
 
 
 class MenuOptionSelection(models.Model):
