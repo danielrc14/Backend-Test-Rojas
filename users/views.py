@@ -5,7 +5,10 @@ from django.urls import reverse
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 # Models
-from .models import MenuOptionSelection
+from .models import (
+    User,
+    MenuOptionSelection,
+)
 from menus.models import Menu
 
 # Forms
@@ -26,6 +29,10 @@ class SelectMenuOptionView(UserPassesTestMixin, FormView):
     form_class = MenuOptionSelectionForm
     template_name = 'menu_selection/menu_selection_today.html'
 
+    def dispatch(self, *args, **kwargs):
+        self.user = get_object_or_404(User, uuid=self.kwargs.get('uuid'))
+        return super().dispatch(*args, **kwargs)
+
     def test_func(self):
         # Forbid users to select an option after 11:00
         datetime.now().time() < time(hour=11)
@@ -38,7 +45,7 @@ class SelectMenuOptionView(UserPassesTestMixin, FormView):
         kwargs = super().get_form_kwargs()
         menu = get_object_or_404(Menu, date=datetime.now().date())
         selection = MenuOptionSelection.objects.filter(
-            user=self.request.user,
+            user=self.user,
             option__menu=menu,
         ).first()
         kwargs['instance'] = selection
@@ -48,7 +55,7 @@ class SelectMenuOptionView(UserPassesTestMixin, FormView):
 
     def form_valid(self, form):
         # Assign user to the instance and save it
-        form.instance.user = self.request.user
+        form.instance.user = self.user
         form.save()
 
         return super().form_valid(form)
