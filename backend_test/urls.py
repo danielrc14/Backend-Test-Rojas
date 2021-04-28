@@ -23,11 +23,11 @@ from .utils.healthz import healthz
 
 
 def home_view(request):
-    if request.user.is_authenticated:
-        if request.user.has_perm('menus.add_menu'):
-            return redirect('menus:menu_list')
-        else:
-            return redirect('users:menu_selection')
+    if (
+        request.user.is_authenticated
+        and request.user.has_perm('menus.add_menu')
+    ):
+        return redirect('menus:menu_list')
     else:
         return redirect('login')
 

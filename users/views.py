@@ -3,6 +3,7 @@ from django.views.generic.edit import FormView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 
 # Models
 from .models import (
@@ -21,7 +22,7 @@ from datetime import (
 )
 
 
-class SelectMenuOptionView(UserPassesTestMixin, FormView):
+class SelectMenuOptionView(FormView):
     """
     View for a user to select his option for today's menu.
     """
@@ -31,11 +32,11 @@ class SelectMenuOptionView(UserPassesTestMixin, FormView):
 
     def dispatch(self, *args, **kwargs):
         self.user = get_object_or_404(User, uuid=self.kwargs.get('uuid'))
-        return super().dispatch(*args, **kwargs)
-
-    def test_func(self):
         # Forbid users to select an option after 11:00
-        datetime.now().time() < time(hour=11)
+        if datetime.now().time() > time(hour=11):
+            raise PermissionDenied
+
+        return super().dispatch(*args, **kwargs)
 
     def get_form_kwargs(self):
         """
@@ -61,4 +62,4 @@ class SelectMenuOptionView(UserPassesTestMixin, FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('users:menu_selection')
+        return reverse('users:menu_selection', args=[str(self.user.uuid)])

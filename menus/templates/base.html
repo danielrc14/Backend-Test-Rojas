@@ -14,9 +14,6 @@
         <li><a href="{% url 'menus:menu_list' %}">Menus list</a></li>
         <li><a href="{% url 'menus:selections_list' %}">Selections list</a></li>
       {% endif %}
-      {% if request.user.is_authenticated %}
-        <li><a href="{% url 'users:menu_selection' %}">Select option for today's menu</a></li>
-      {% endif %}
       <li class="float-right">
         {% if request.user.is_authenticated %}
           Logged in as {{request.user}} <a href="{% url 'logout' %}">Log out</a>
