@@ -27,4 +27,9 @@ urlpatterns = [
         views.MenuOptionSelectionListView.as_view(),
         name='selections_list',
     ),
+    path(
+        'send_link',
+        views.SendMenuSelectionLinksView.as_view(),
+        name='send_link',
+    ),
 ]

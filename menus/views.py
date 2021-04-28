@@ -5,15 +5,22 @@ from django.views.generic.edit import (
     CreateView,
     UpdateView,
 )
-from django.shortcuts import get_object_or_404
+from django.views import View
+from django.shortcuts import (
+    get_object_or_404,
+    redirect,
+)
 from django.contrib.auth.mixins import UserPassesTestMixin
 
-# Models
+# Menus
 from .models import (
     Menu,
     MenuOption,
 )
+
+# Users
 from users.models import MenuOptionSelection
+from users.tasks import send_menu_link_to_all_users
 
 # Others
 from datetime import datetime
@@ -115,3 +122,17 @@ class MenuOptionSelectionListView(BasePermissionMixin, ListView):
         )
 
         return queryset
+
+
+class SendMenuSelectionLinksView(BasePermissionMixin, View):
+    """
+    View to send messages with today's menu to all employees (task is sent to
+    Celery).
+    """
+
+    def post(self, request, *args, **kwargs):
+        # Make sure today's menu exists
+        get_object_or_404(Menu, date=datetime.now().date())
+        send_menu_link_to_all_users.delay(self.request.build_absolute_uri())
+
+        return redirect('menus:menu_list')

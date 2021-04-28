@@ -25,5 +25,9 @@
       </tr>
     {% endfor %}
   </table>
-  <a href="{% url 'menus:menu_create' %}">Create new menu</a>
+  <p><a href="{% url 'menus:menu_create' %}">Create new menu</a></p>
+  <form method='post' action="{% url 'menus:send_link' %}">
+    {% csrf_token %}
+    <input type="submit" value="Send today's menu">
+  </form>
 {% endblock content %}
