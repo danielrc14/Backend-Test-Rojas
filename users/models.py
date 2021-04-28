@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import uuid
 
 
 class User(AbstractUser):
@@ -11,6 +12,11 @@ class User(AbstractUser):
         max_length=255,
         blank=True,
         null=True,
+    )
+    uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True,
     )
 
 
