@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 import uuid
+import urllib.parse
 from .slack_client import send_slack_message
 
 
@@ -21,19 +22,22 @@ class User(AbstractUser):
         unique=True,
     )
 
-    def get_menu_selection_link(self, request):
+    def get_menu_selection_link(self, base_url):
         # String with the link to the view of menu option selection
-        return request.build_absolute_uri(reverse(
-            'users:menu_selection', args=[str(self.uuid)])
+        return urllib.parse.urljoin(
+            base_url,
+            reverse(
+                'users:menu_selection', args=[str(self.uuid)]
+            )
         )
 
-    def send_menu_link_to_slack(self, request):
+    def send_menu_link_to_slack(self, base_url):
         # Send message to slack with the the link to select an option
         message = (
             'Follow this link to select your option from today\'s Menu! '
-            + self.get_menu_selection_link(request)
+            + self.get_menu_selection_link(base_url)
         )
-        send_slack_message.delay(message, self.slack_username)
+        send_slack_message(message, self.slack_username)
 
 
 class MenuOptionSelection(models.Model):

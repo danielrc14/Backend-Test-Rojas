@@ -1,9 +1,7 @@
 from django.conf import settings
 from slack_sdk.web import WebClient
-from backend_test.celery import app
 
 
-@app.task
 def send_slack_message(message, channel):
     slack_web_client = WebClient(token=settings.SLACK_SDK_OAUTH_TOKEN)
     if channel[0] != '@':
