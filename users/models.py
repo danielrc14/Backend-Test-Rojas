@@ -33,11 +33,14 @@ class User(AbstractUser):
 
     def send_menu_link_to_slack(self, base_url):
         # Send message to slack with the the link to select an option
-        message = (
-            'Follow this link to select your option from today\'s Menu! '
-            + self.get_menu_selection_link(base_url)
-        )
-        send_slack_message(message, self.slack_username)
+        if self.slack_username:
+            message = (
+                'Follow this link to select your option from today\'s Menu! '
+                + self.get_menu_selection_link(base_url)
+            )
+            if self.slack_username[0] != '@':
+                self.slack_username = '@' + self.slack_username
+            send_slack_message(message, self.slack_username)
 
 
 class MenuOptionSelection(models.Model):
