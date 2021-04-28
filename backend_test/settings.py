@@ -92,7 +92,7 @@ WSGI_APPLICATION = "backend_test.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": getenv("POSTGRES_DEFAULT_DB", default="postgres"),
+        "NAME": getenv("POSTGRES_DEFAULT_DB", default="cornershop_backend_test"),
         "USER": getenv("POSTGRES_DEFAULT_USER", default="postgres"),
         "PASSWORD": getenv("POSTGRES_DEFAULT_PASSWORD", default="postgres"),
         "HOST": getenv("POSTGRES_DEFAULT_HOSTNAME", default="postgres"),
