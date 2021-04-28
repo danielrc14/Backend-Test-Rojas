@@ -241,3 +241,7 @@ LOGGING = {
 }
 
 LOGIN_REDIRECT_URL = '/'
+
+# Slack integration
+SLACK_SDK_OAUTH_TOKEN = getenv('SLACK_SDK_OAUTH_TOKEN')
+SLACK_USERNAME = 'cornershop-bot'
