@@ -6,7 +6,7 @@ class Menu(models.Model):
     """
     A model that represents the menu for a specific date.
     """
-    date = models.DateField()
+    date = models.DateField(unique=True)
 
     def get_absolute_url(self):
         return reverse('menus:menu_detail', args=[str(self.id)])
